@@ -41,14 +41,7 @@ docker-compose.yml
 - API will expose `GET /api/students`, `GET /api/students/{id}`, `POST`, `PUT`, `DELETE`.
 - MVC shows a table and supports **Create / Update / Delete / Search (by name)**.
 
-### 2) Configure local connection string (API)
-In `StudentApi/appsettings.Development.json`:
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost,1433;Database=StudentDb;User Id=sa;Password=Your_password123;TrustServerCertificate=True;"
-  }
-}
+
 ```
 
 > For local Docker SQL, `Server=localhost,1433` is correct (Visual Studio on Windows).
