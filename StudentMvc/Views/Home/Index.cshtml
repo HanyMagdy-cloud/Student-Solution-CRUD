@@ -1,0 +1,64 @@
+﻿@model IEnumerable<StudentMvc.Models.Student>
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="m-0">Student List</h2>
+
+        <a asp-controller="Home" asp-action="Create" class="btn btn-primary">
+            Add New
+        </a>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No students found.</div>
+    }
+    else
+    {
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-sm-6 col-md-4">
+                <input name="searchString"
+                       value="@(ViewBag.SearchString ?? "")"
+                       class="form-control"
+                       placeholder="Search by name" />
+            </div>
+            <div class="col-sm-3 d-flex gap-2">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th style="white-space:nowrap;">Date of Birth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td>@s.Id</td>
+                            <td>@s.Name</td>
+                            <td>@s.Email</td>
+                            <td>@s.Phone</td>
+                            <td>@(s.DateOfBearth?.ToString("dd-MM-yyyy"))</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-sm btn-primary">Update</a>
+                                <a asp-action="Delete" asp-route-id="@s.Id" class="btn btn-sm btn-danger ms-2">Delete</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

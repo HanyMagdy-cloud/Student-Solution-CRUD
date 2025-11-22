@@ -1,0 +1,46 @@
+﻿version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql   # persistent storage for database files
+    networks:
+      - studentnet
+
+  studentapi:
+    build:
+      context: .
+      dockerfile: StudentApi/Dockerfile
+    container_name: studentapi
+    ports:
+      - "8081:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - studentnet
+
+  studentmvc:
+    build:
+      context: .
+      dockerfile: StudentMvc/Dockerfile
+    container_name: studentmvc
+    ports:
+      - "8082:8080"
+    depends_on:
+      - studentapi
+    networks:
+      - studentnet
+
+networks:
+  studentnet:
+    driver: bridge
+
+volumes:
+  sql_data:   #  volume for SQL Server persistence
